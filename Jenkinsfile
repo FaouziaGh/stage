@@ -9,6 +9,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
+                 git branch: 'main',
                 git 'https://github.com/FaouziaGh/stage.git'
             }
         }
