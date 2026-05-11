@@ -13,7 +13,8 @@ import io.cucumber.junit.CucumberOptions;
         plugin = {
                 "pretty",
                 "html:target/cucumber/report.html",
-                "json:target/cucumber/cucumber.json"
+                "json:target/cucumber/cucumber.json",
+                "json:target/allure-results/allure.json"
         }
 )
 public class TestRunner {
