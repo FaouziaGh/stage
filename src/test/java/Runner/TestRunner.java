@@ -14,7 +14,7 @@ import io.cucumber.junit.CucumberOptions;
                 "pretty",
                 "html:target/cucumber/report.html",
                 "json:target/cucumber/cucumber.json",
-                "json:target/allure-results/allure.json"
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         }
 )
 public class TestRunner {
