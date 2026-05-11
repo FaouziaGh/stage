@@ -16,6 +16,6 @@ import io.cucumber.junit.CucumberOptions;
                 "json:target/cucumber/cucumber.json"
         }
 )
-public class Runner {
+public class TestRunner {
 
 }
