@@ -152,7 +152,7 @@ public class AddStepDef {
 	@Then("User is redirected to the list and {string} does not exist in any page")
 	public void user_is_redirected_and_periode_not_in_any_page(String periodeName) {
 	    PeriodePage periode = new PeriodePage();
-	    periode.verifPerideNotInCurrentPages(periodeName);
+	    periode.verifPerideNotInAnyPage(periodeName);
 	    Config.driver.quit();
 	}
 
