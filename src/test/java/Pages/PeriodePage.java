@@ -16,8 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import Helper.Config;
 
 public class PeriodePage {
-	//@FindBy(id="add")
-	//WebElement addButton;
+	@FindBy(id="add")
+	WebElement addButton;
 	
 	@FindBy(id="mui-56")
 	WebElement addTitle1;
@@ -115,31 +115,16 @@ public class PeriodePage {
 		PageFactory.initElements(Config.driver, this);
 	}
 	
-	//public void clickPeriodeAddButton(String addBtn) {
-		
-		//if(addButton.getText().trim().equalsIgnoreCase(addBtn.trim())) {
-		//	Config.attent(10);
-		//	Config.waitAndClick(addButton, 20);
-		//	Config.jsClick(addButton);
-			//addButton.click();
-		//}
-	//}
-
 	public void clickPeriodeAddButton(String addBtn) {
+		Config.attent(10);
+		if(addButton.getText().trim().equalsIgnoreCase(addBtn.trim())) {
+			
+			Config.waitAndClick(addButton, 20);
+			Config.jsClick(addButton);
+			addButton.click();
+		}
+	}
 
-    WebDriverWait wait = new WebDriverWait(Config.driver, Duration.ofSeconds(20));
-
-    WebElement button = wait.until(
-        ExpectedConditions.elementToBeClickable(
-            By.xpath("//button[contains(.,'" + addBtn + "')]")
-        )
-    );
-
-    System.out.println("Button found: " + button.getText());
-
-    ((JavascriptExecutor) Config.driver)
-        .executeScript("arguments[0].click();", button);
-}
 
 	public void verifAddPeriode(String title) {
     try {
