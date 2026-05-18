@@ -381,10 +381,10 @@ public class PeriodePage {
 
 	// ── Click cancel button
 	public void clickCancelButton() {
-	    Config.attent(2);
+	    Config.attent(5);
 	    Config.waitForVisibility(cancelButton, 10);
 	    cancelButton.click();
-	    Config.attent(2);
+	    Config.attent(5);
 	}
 	
 	public void verifPerideNotInAnyPage(String periodeName) {
