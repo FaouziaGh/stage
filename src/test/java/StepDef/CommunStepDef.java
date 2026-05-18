@@ -38,15 +38,21 @@ public class CommunStepDef {
 
     @When("User clicks on menu {string} then clicks on submenu {string} then clicks on subsubmenu {string} then clicks on subsubsubmenu {string}")
     public void user_clicks_on_menu_then_clicks_on_submenu_then_clicks_on_subsubmenu_then_clicks_on_subsubsubmenu(
-            String menu, String subMenu, String subsubMenu, String subsubSubMenu) throws Exception {
+            String menu, String subMenu, String subsubMenu, String subsubSubMenu) {
+        MenuPage menuPage = new MenuPage();
+        menuPage.clickMenus(menu, subMenu, subsubMenu, subsubSubMenu);
+    }
+    
+   // public void user_clicks_on_menu_then_clicks_on_submenu_then_clicks_on_subsubmenu_then_clicks_on_subsubsubmenu(
+          //  String menu, String subMenu, String subsubMenu, String subsubSubMenu) throws Exception {
 
         // Navigate directly — no URL wait at all
-        Config.driver.get("https://staging.erudaxis.com/plan/parametres/period");
-        Config.attent(5);
+      //  Config.driver.get("https://staging.erudaxis.com/plan/parametres/period");
+      //  Config.attent(5);
 
-        System.out.println("Navigated to: " + Config.driver.getCurrentUrl());
-        System.out.println("Verification successful: Home page contains the expected message.");
-    }
+        //System.out.println("Navigated to: " + Config.driver.getCurrentUrl());
+      //  System.out.println("Verification successful: Home page contains the expected message.");
+  //  }
 
     @Then("The correct page is displayed with the title {string}")
     public void the_correct_page_is_displayed_with_the_title(String menuTitle) {
