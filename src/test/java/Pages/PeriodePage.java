@@ -17,7 +17,10 @@ import Helper.Config;
 
 public class PeriodePage {
 	@FindBy(id="add")
-	WebElement addButton;
+	WebElement addButtons;
+	
+	@FindBy(xpath = "//button[contains(., 'Ajouter P')]")
+    WebElement addButton;
 	
 	@FindBy(id="mui-56")
 	WebElement addTitle1;
@@ -115,15 +118,34 @@ public class PeriodePage {
 		PageFactory.initElements(Config.driver, this);
 	}
 	
-	public void clickPeriodeAddButton(String addBtn) {
-		Config.attent(10);
-		if(addButton.getText().trim().equalsIgnoreCase(addBtn.trim())) {
+	//public void clickPeriodeAddButton(String addBtn) {
+		//Config.attent(10);
+		//if(addButton.getText().trim().equalsIgnoreCase(addBtn.trim())) {
 			
-			Config.waitAndClick(addButton, 20);
-			Config.jsClick(addButton);
-			addButton.click();
-		}
-	}
+		//	Config.waitAndClick(addButton, 20);
+		//	Config.jsClick(addButton);
+		//	addButton.click();
+		//}
+	//}
+
+	public void clickPeriodeAddButton(String addBtn) {
+    WebDriverWait wait = new WebDriverWait(Config.driver, Duration.ofSeconds(20));
+    
+    // Wait until button is visible and clickable
+    WebElement btn = wait.until(ExpectedConditions.elementToBeClickable(
+        By.xpath("//button[contains(., 'Ajouter') and contains(., 'riode')]")
+    ));
+    
+    String actualText = btn.getText().trim();
+    System.out.println("Found button text: " + actualText);
+    
+    Assert.assertTrue(
+        "Button text mismatch. Expected: '" + addBtn + "' but found: '" + actualText + "'",
+        actualText.equalsIgnoreCase(addBtn.trim())
+    );
+    
+    Config.jsClick(btn); // one click is enough
+}
 
 
 	public void verifAddPeriode(String title) {
