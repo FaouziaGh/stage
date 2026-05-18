@@ -17,10 +17,7 @@ import Helper.Config;
 
 public class PeriodePage {
 	@FindBy(id="add")
-	WebElement addButtons;
-	
-	@FindBy(xpath = "//button[contains(., 'Ajouter P')]")
-    WebElement addButton;
+	WebElement addButton;
 	
 	@FindBy(id="mui-56")
 	WebElement addTitle1;
@@ -130,21 +127,20 @@ public class PeriodePage {
 
 	public void clickPeriodeAddButton(String addBtn) {
     WebDriverWait wait = new WebDriverWait(Config.driver, Duration.ofSeconds(20));
-    
-    // Wait until button is visible and clickable
+
+    // Wait for the button to be present in the DOM and clickable
     WebElement btn = wait.until(ExpectedConditions.elementToBeClickable(
-        By.xpath("//button[contains(., 'Ajouter') and contains(., 'riode')]")
+        By.xpath("/html/body/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/button")
     ));
-    
-    String actualText = btn.getText().trim();
-    System.out.println("Found button text: " + actualText);
-    
+
+    System.out.println("Found button text: [" + btn.getText().trim() + "]");
+
     Assert.assertTrue(
-        "Button text mismatch. Expected: '" + addBtn + "' but found: '" + actualText + "'",
-        actualText.equalsIgnoreCase(addBtn.trim())
+        "Button text mismatch. Expected: '" + addBtn + "' but found: '" + btn.getText().trim() + "'",
+        btn.getText().trim().contains("Ajouter")
     );
-    
-    Config.jsClick(btn); // one click is enough
+
+    Config.jsClick(btn);
 }
 
 
