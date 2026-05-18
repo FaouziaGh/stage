@@ -124,8 +124,33 @@ public class PeriodePage {
 			//addButton.click();
 		}
 	}
-	
+
 	public void verifAddPeriode(String title) {
+    try {
+        // Wait for any visible non-empty h2 inside the popup
+        WebElement titleElement = new WebDriverWait(Config.driver, Duration.ofSeconds(15))
+            .until(driver -> {
+                List<WebElement> h2Elements = driver.findElements(By.tagName("h2"));
+                for (WebElement h2 : h2Elements) {
+                    String text = h2.getText().trim();
+                    if (!text.isEmpty()) {
+                        System.out.println("Found h2: " + text);
+                        return h2;
+                    }
+                }
+                return null;
+            });
+
+        String actualText = titleElement.getText().trim();
+        System.out.println("Popup title: " + actualText);
+        Assert.assertEquals(title, actualText);
+
+    } catch (Exception e) {
+        Assert.fail("Popup title '" + title + "' not found. Error: " + e.getMessage());
+    }
+}
+	
+	public void verifAddPeriodes(String title) {
 		Config.attent(20);
 		String actualText = addTitle.getText();
 		Assert.assertEquals(title, actualText);
