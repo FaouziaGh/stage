@@ -11,9 +11,30 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Config {
 	public static WebDriver driver;
-	public static void maximazwindow() {
+	
+	public static void maximazwindows() {
 		driver.manage().window().maximize();
 	}
+
+	public static void maximazwindow() {
+    ChromeOptions options = new ChromeOptions();
+
+    // Detect if running on Jenkins (no display)
+    if (System.getProperty("jenkins") != null
+            || System.getenv("JENKINS_HOME") != null) {
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--disable-gpu");
+        System.out.println("Running in headless mode (Jenkins)");
+    } else {
+        options.addArguments("--start-maximized");
+        System.out.println("Running in normal mode (local)");
+    }
+
+    driver = new ChromeDriver(options);
+}
 	
 	public static void attent(int s) {
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(s));
