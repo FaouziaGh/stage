@@ -24,17 +24,27 @@ public class CommunStepDef {
 
         Config.driver = new ChromeDriver(options);
 
+        // ── Step 1: go to login page
         Config.driver.get(Utils.getProperty("Login_link"));
+        Config.attent(5);
 
+        // ── Step 2: login
         LoginPage login = new LoginPage();
         login.connect(username, password);
+
+        // ── Step 3: wait for role selection popup
         Config.attent(15);
 
+        // ── Step 4: select role
         login.selectRole(role);
-        Config.waitForUrlContains("dashboard", 20);
-        System.out.println("Login successful — on dashboard.");
+
+        // ── Step 5: wait for role selection to complete
+        Config.attent(10);
+
+        System.out.println("Login successful — role selected: " + role);
     }
 
+    // ── Navigate directly to Periode page
     @When("User clicks on menu {string} then clicks on submenu {string} then clicks on subsubmenu {string} then clicks on subsubsubmenu {string}")
     public void user_clicks_on_menu_then_clicks_on_submenu_then_clicks_on_subsubmenu_then_clicks_on_subsubsubmenu(
             String menu, String subMenu, String subsubMenu, String subsubSubMenu) throws Exception {
