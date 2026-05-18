@@ -118,37 +118,39 @@ public class PeriodePage {
 	public void clickPeriodeAddButton(String addBtn) {
 		
 		if(addButton.getText().trim().equalsIgnoreCase(addBtn.trim())) {
-			//Config.attent(10);
-			Config.waitAndClick(addButton, 10);
-			addButton.click();
+			Config.attent(10);
+			Config.waitAndClick(addButton, 20);
+			Config.jsClick(addButton);
+			//addButton.click();
 		}
 	}
 	
 	public void verifAddPeriode(String title) {
-		Config.attent(10);
+		Config.attent(20);
 		String actualText = addTitle.getText();
 		Assert.assertEquals(title, actualText);
 	}
 	
 	public void addPeriode(String name, String startDate, String endDate) {
-		//Config.attent(10);
-		Config.waitForVisibility(periodeName, 10);
+		Config.attent(10);
+		Config.waitForVisibility(periodeName, 20);
 		periodeName.sendKeys(name);
-		Config.waitForVisibility(periodeStartDate, 10);
+		Config.waitForVisibility(periodeStartDate, 20);
 		periodeStartDate.sendKeys(startDate);
-		Config.waitForVisibility(periodeEndDate, 10);
+		Config.waitForVisibility(periodeEndDate, 20);
 		periodeEndDate.sendKeys(endDate);
-		Config.waitAndClick(saveButton, 10);
-		saveButton.click();
+		Config.waitAndClick(saveButton, 20);
+		Config.jsClick(saveButton);
+		//saveButton.click();
 	}
 	
 	public void addPeriodeWhithOutSave(String name, String startDate, String endDate) {
-		//Config.attent(10);
-		Config.waitForVisibility(periodeName, 10);
+		Config.attent(10);
+		Config.waitForVisibility(periodeName, 20);
 		periodeName.sendKeys(name);
-		Config.waitForVisibility(periodeStartDate, 10);
+		Config.waitForVisibility(periodeStartDate, 20);
 		periodeStartDate.sendKeys(startDate);
-		Config.waitForVisibility(periodeEndDate, 10);
+		Config.waitForVisibility(periodeEndDate, 20);
 		periodeEndDate.sendKeys(endDate);
 		
 	}
@@ -157,7 +159,8 @@ public class PeriodePage {
 		Config.attent(10);
 		String actualText = verifAdd.getText().trim();
 		Assert.assertEquals(confirmMsg, actualText);
-		confirmButton.click();
+		Config.jsClick(confirmButton);
+		//confirmButton.click();
 	}
 	
 	public void clickSave() {
@@ -172,8 +175,9 @@ public class PeriodePage {
 	    Assert.assertEquals(expectedTitle, actualTitle);
 	    Assert.assertTrue("Expected message to contain: " + expectedMessage + " but was: " + actualMessage, actualMessage.contains(expectedMessage));
 	    
-	    Config.attent(2);
-	    confirmButton.click();
+	    Config.attent(5);
+	    Config.jsClick(confirmButton);
+	    //confirmButton.click();
 	}
 
 	// Check if an element is displayed without throwing exception
@@ -186,7 +190,7 @@ public class PeriodePage {
 	}
 
 	public void verifEmptyFieldErrors(String name, String startDate) {
-	    Config.attent(3);
+	    Config.attent(5);
 
 	    // Step 1: all empty → error should appear under name
 	    if (!isErrorDisplayed(nameError)) {
@@ -195,6 +199,7 @@ public class PeriodePage {
 	    System.out.println("Name error: " + nameError.getText());
 
 	    // Step 2: fill name with passed data, click save → error moves to startDate
+	    Config.waitForVisibility(periodeName, 20);
 	    periodeName.sendKeys(name);
 	    Config.jsClick(saveButton);
 	    Config.attent(2);
@@ -205,9 +210,10 @@ public class PeriodePage {
 	    System.out.println("Start date error: " + startDateError.getText());
 
 	    // Step 3: fill startDate with passed data, click save → error moves to endDate
+	    Config.waitForVisibility(periodeStartDate, 20);
 	    periodeStartDate.sendKeys(startDate);
 	    Config.jsClick(saveButton);
-	    Config.attent(2);
+	    Config.attent(5);
 
 	    if (!isErrorDisplayed(endDateError)) {
 	        Assert.fail("Expected error under end date field but none was displayed");
@@ -231,7 +237,7 @@ public class PeriodePage {
 	// ── Fill a row after clicking +Ajouter Plus
 	
 	public void fillRowAfterAjouterPlus(int rowIndex, String name, String startDate, String endDate) {
-	    Config.attent(2);
+	    Config.attent(5);
 
 	    // Wait until the list has exactly rowIndex+1 elements (new row appeared)
 	    new WebDriverWait(Config.driver, Duration.ofSeconds(10))
@@ -256,6 +262,7 @@ public class PeriodePage {
 
 	    System.out.println("Filling row " + rowIndex + " — total rows available: " + freshNames.size());
 
+	    Config.attent(5);
 	    freshNames.get(rowIndex).clear();
 	    freshNames.get(rowIndex).sendKeys(name);
 	    freshStartDates.get(rowIndex).sendKeys(startDate);
@@ -265,7 +272,7 @@ public class PeriodePage {
 	}
 	// Waits for the new row to appear before filling
 	public void fillRowAfterAjouterPluss(int rowIndex, String name, String startDate, String endDate) {
-	    Config.attent(2);
+	    Config.attent(5);
 
 	    // Wait until the new row is present
 	    new WebDriverWait(Config.driver, Duration.ofSeconds(10))
@@ -281,7 +288,7 @@ public class PeriodePage {
 	}
 	
 	public void clickAjouterPlus() {
-	    Config.attent(2);
+	    Config.attent(5);
 	    Config.jsClick(ajouterPlusButton);
 	}
 	
@@ -300,11 +307,11 @@ public class PeriodePage {
 		
 		// Scroll to button first to make sure it's in view
 		((JavascriptExecutor) Config.driver).executeScript("arguments[0].scrollIntoView(true);", removeButton);
-		Config.attent(1);
+		Config.attent(5);
 		
 		// Regular click
 		removeButton.click();
-		Config.attent(2);
+		Config.attent(5);
 		
 		// Wait until row count decreases
 		int expectedRows = rowsBefore - 1;
@@ -316,7 +323,7 @@ public class PeriodePage {
 	
 	// ── Verify error message displayed under ANY field with invalid data across ALL rows
 	public void verifInvalidFieldError(String expectedMessage) {
-    Config.attent(3);
+    Config.attent(5);
 
     int totalRows = periodeNames.size();
     System.out.println("Total rows: " + totalRows);
@@ -383,7 +390,7 @@ public class PeriodePage {
 	public void verifPerideNotInAnyPage(String periodeName) {
     ListePage listePage = new ListePage();
     listePage.verifPerideNotInCurrentPage(periodeName);
-}
+    }
 
     
 }

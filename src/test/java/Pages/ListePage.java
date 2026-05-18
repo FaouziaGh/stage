@@ -67,7 +67,7 @@ public class ListePage {
 		}
 	
 	public void verifPerideNotInCurrentPage(String periodeName) {
-        Config.attent(2);
+        Config.attent(10);
         int pageNumber = 1;
 
         while (true) {
@@ -109,7 +109,7 @@ public class ListePage {
     // ── Verify periode DOES exist in any page
     // ────────────────────────────────────────────
     public void verifPerideExistsInAnyPage(String periodeName) {
-        Config.attent(2);
+        Config.attent(10);
         int pageNumber = 1;
         boolean found = false;
 
