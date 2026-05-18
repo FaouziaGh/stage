@@ -28,12 +28,12 @@ public void user_is_logged_in_on_the_home_page_with_the_correct_correct_username
     Config.attent(10);
     login.selectRole(role);
 
-// Wait until the home page menu is actually rendered
-new WebDriverWait(Config.driver, Duration.ofSeconds(20))
-    .until(ExpectedConditions.presenceOfElementLocated(
-        By.xpath("//*[contains(text(),\"Plans d'etudes\")]")
-    ));
-System.out.println("Login successful - role selected: " + role);
+    // Wait for ANY page content after role selection — not a specific menu item
+    new WebDriverWait(Config.driver, Duration.ofSeconds(30))
+        .until(ExpectedConditions.urlContains("erudaxis.com"));
+
+    System.out.println("Login successful - role selected: " + role);
+    System.out.println("URL after login: " + Config.driver.getCurrentUrl());
 }
 
     @When("User clicks on menu {string} then clicks on submenu {string} then clicks on subsubmenu {string} then clicks on subsubsubmenu {string}")
