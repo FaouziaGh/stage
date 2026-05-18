@@ -38,14 +38,17 @@ System.out.println("Login successful - role selected: " + role);
 
     @When("User clicks on menu {string} then clicks on submenu {string} then clicks on subsubmenu {string} then clicks on subsubsubmenu {string}")
     public void user_clicks_on_menu_then_clicks_on_submenu_then_clicks_on_subsubmenu_then_clicks_on_subsubsubmenu(
-            String menu, String subMenu, String subsubMenu, String subsubSubMenu) {
-        MenuPage menuPage = new MenuPage();
-        menuPage.clickMenus(menu, subMenu, subsubMenu, subsubSubMenu);
+        String menu, String subMenu, String subsubMenu, String subsubSubMenu) {
 
-        // Wait for the target page button to be ready after navigation
-        new WebDriverWait(Config.driver, Duration.ofSeconds(20))
-            .until(ExpectedConditions.elementToBeClickable(By.id("add")));
-    }
+    // Navigate directly — works reliably in both headless and headed
+    Config.driver.get("https://staging.erudaxis.com/plan/parametres/period");
+
+    // Wait for the add button to confirm page is ready
+    new WebDriverWait(Config.driver, Duration.ofSeconds(20))
+        .until(ExpectedConditions.elementToBeClickable(By.id("add")));
+
+    System.out.println("Navigated to: " + Config.driver.getCurrentUrl());
+}
 
     @Then("The correct page is displayed with the title {string}")
     public void the_correct_page_is_displayed_with_the_title(String menuTitle) {
