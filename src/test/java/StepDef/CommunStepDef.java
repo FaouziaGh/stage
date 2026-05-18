@@ -48,8 +48,8 @@ public class CommunStepDef {
     @When("User clicks on menu {string} then clicks on submenu {string} then clicks on subsubmenu {string} then clicks on subsubsubmenu {string}")
     public void user_clicks_on_menu_then_clicks_on_submenu_then_clicks_on_subsubmenu_then_clicks_on_subsubsubmenu(
             String menu, String subMenu, String subsubMenu, String subsubSubMenu) throws Exception {
-        Config.driver.get(Utils.getProperty("Periode_link"));
-        Config.waitForUrlContains("period", 15);
+        Config.driver.get(Utils.getProperty("HomePage_link"));
+        Config.waitForUrlContains("HomePage_link", 15);
         Config.attent(3);
         System.out.println("Verification successful: Home page contains the expected message.");
     }
