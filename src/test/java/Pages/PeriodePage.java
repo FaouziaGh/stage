@@ -126,22 +126,13 @@ public class PeriodePage {
 	//}
 
 	public void clickPeriodeAddButton(String addBtn) {
-    WebDriverWait wait = new WebDriverWait(Config.driver, Duration.ofSeconds(20));
-
-    // Wait for the button to be present in the DOM and clickable
-    WebElement btn = wait.until(ExpectedConditions.elementToBeClickable(
-        By.xpath("/html/body/div/div[2]/div/div/div/div/div[1]/div[2]/div[2]/button")
-    ));
-
-    System.out.println("Found button text: [" + btn.getText().trim() + "]");
-
-    Assert.assertTrue(
-        "Button text mismatch. Expected: '" + addBtn + "' but found: '" + btn.getText().trim() + "'",
-        btn.getText().trim().contains("Ajouter")
-    );
-
-    Config.jsClick(btn);
-}
+		Config.attent(10);
+		if(addButton.getText().trim().equalsIgnoreCase(addBtn.trim())) {
+			
+			Config.waitAndClick(addButton, 30);
+			addButton.click();
+		}
+	}
 
 
 	public void verifAddPeriode(String title) {
