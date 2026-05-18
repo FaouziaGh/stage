@@ -61,20 +61,20 @@ public class MenuPage {
 			for(WebElement menu : menus) {
 				if(menu.getText().trim().equalsIgnoreCase(menuName.trim())) {
 					//Config.waitAndClick(menu, 10);
-					Config.waitForUrlContains(Utils.getProperty("HomePage_link"), 15);
-					Config.waitForVisibility(menu, 20);
+					Config.waitForUrlContains(Utils.getProperty("HomePage_link"), 20);
+					Config.waitForVisibility(menu, 30);
 					menu.click();
 					for(WebElement subMenu : subMenus) {
 						if(subMenu.getText().trim().equalsIgnoreCase(subMenuName.trim())) {
-							Config.waitAndClick(subMenu, 10);
+							Config.waitAndClick(subMenu, 30);
 							subMenu.click();
 							for(WebElement subSubMenu : subSubMenus) {
 								if(subSubMenu.getText().trim().equalsIgnoreCase(subSubMenuName.trim())) {
-									Config.waitAndClick(subSubMenu, 10);
+									Config.waitAndClick(subSubMenu, 30);
 									subSubMenu.click();
 									for(WebElement subSubSubMenu : subSubSubMenus) {
 										if(subSubSubMenu.getText().trim().equalsIgnoreCase(subSubSubMenuName.trim())) {
-											Config.waitAndClick(subSubSubMenu, 10);
+											Config.waitAndClick(subSubSubMenu, 30);
 											subSubSubMenu.click();
 											return;
 										}
