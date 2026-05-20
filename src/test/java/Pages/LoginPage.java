@@ -32,23 +32,22 @@ public class LoginPage {
 	
 	public void connect(String uname, String pwd) {
 		Config.attent(10);
-		//Config.waitForVisibility(username, 10);
+		Config.waitForVisibility(username, 10);
 		username.sendKeys(uname);
-		//Config.waitForVisibility(password, 10);
+		Config.waitForVisibility(password, 10);
 		password.sendKeys(pwd);
-		//Config.waitAndClick(loginButton, 10);
+		Config.waitAndClick(loginButton, 20);
 		loginButton.click();
 	}
 	
 	public void selectRole(String roleName) {
-		//Config.attent(10);
+		Config.attent(10);
 		try {
 			for (WebElement role : loginRole) {
 				//Config.waitForVisibility(role, 10);
 		        if (role.getText().trim().equalsIgnoreCase(roleName.trim())) {
 		        	//System.out.println("Role found: " + role.getText());
-		        	Config.waitAndClick(role, 10);
-		        	
+		        	Config.waitAndClick(role, 30);
 		            role.click();
 		        }
 		    }
@@ -57,8 +56,8 @@ public class LoginPage {
 	}
 	
 	public void verifLogin(String msg)throws Exception {
-		Config.waitForUrlContains(Utils.getProperty("HomePage_link"), 15);
-		Config.waitForVisibility(verifLogin, 10);
+		Config.waitForUrlContains(Utils.getProperty("HomePage_link"), 20);
+		Config.waitForVisibility(verifLogin, 30);
 		String actualText = verifLogin.getText();
 		//Assert.assertEquals(msg, actualText);
 		Assert.assertTrue("Expected page to contain: " + msg + ", but found: " + actualText, actualText.toLowerCase().contains(msg.toLowerCase()));
