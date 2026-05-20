@@ -34,20 +34,23 @@ public class MenuPage {
     public void clickMenus(String menu, String subMenu, String subsubMenu, String subsubSubMenu) {
         try {
             // Step 1: click main menu
+			Config.attent(30);
         	Config.jsClick(Config.waitAndFind(menu));
-            Config.attent(10);
 
             // Step 2: click submenu
+			Config.attent(30);
             Config.jsClick(Config.waitAndFind(subMenu));
-            Config.attent(10);
+            
 
             // Step 3: click sub-submenu
+			Config.attent(30);
             Config.jsClick(Config.waitAndFind(subsubMenu));
-            Config.attent(10);
+            
 
             // Step 4: click sub-sub-submenu
+			Config.attent(30);
             Config.jsClick(Config.waitAndFind(subsubSubMenu));
-            Config.attent(10);
+            
 
         } catch (Exception e) {
             throw new RuntimeException("Failed to navigate through menu: " + menu + " > " + subMenu + " > " + subsubMenu + " > " + subsubSubMenu, e);
