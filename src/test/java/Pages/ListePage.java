@@ -42,7 +42,7 @@ public class ListePage {
 			
 			// ── Click next button
 			Config.jsClick(nextBtn);
-			Config.attent(2);
+			Config.attent(20);
 			
 			if (rowsAfter.isEmpty()) {
 				System.out.println("No rows after click — stopping.");

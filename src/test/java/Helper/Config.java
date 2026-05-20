@@ -1,8 +1,10 @@
 package Helper;
 
 import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,6 +13,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Config {
+
     public static WebDriver driver;
 
     public static void maximazwindows() {
@@ -46,6 +49,7 @@ public class Config {
     public static void waitAndClick(WebElement element, int seconds) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(seconds));
         wait.until(ExpectedConditions.elementToBeClickable(element));
+        element.click();
     }
 
     public static void waitForUrlContains(String url, int seconds) {
@@ -66,5 +70,36 @@ public class Config {
         }
         return new WebDriverWait(driver, Duration.ofSeconds(10))
             .until(ExpectedConditions.presenceOfElementLocated(By.xpath(xpath)));
+    }
+
+    // ── Navigate directly to a URL and wait for page to load
+    public static void navigateTo(String url) {
+        driver.get(url);
+        attent(20);
+        System.out.println("Navigated to: " + driver.getCurrentUrl());
+    }
+
+    // ── Wait for element to be clickable then click (no JS)
+    public static void clickElement(WebElement element, int seconds) {
+        new WebDriverWait(driver, Duration.ofSeconds(seconds))
+            .until(ExpectedConditions.elementToBeClickable(element));
+        element.click();
+    }
+
+    // ── Wait for element visibility then get its text
+    public static String getTextOf(WebElement element, int seconds) {
+        new WebDriverWait(driver, Duration.ofSeconds(seconds))
+            .until(ExpectedConditions.visibilityOf(element));
+        return element.getText().trim();
+    }
+
+    // ── Clear a field and type new value
+    public static void clearAndType(WebElement element, String text) {
+        waitForVisibility(element, 10);
+        element.click();
+        element.sendKeys(Keys.CONTROL + "a");
+        element.sendKeys(Keys.DELETE);
+        element.clear();
+        element.sendKeys(text);
     }
 }

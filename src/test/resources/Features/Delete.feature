@@ -8,15 +8,15 @@ Feature: Delete Periode
 
   # Delete a Periode
   Scenario: Delete a Periode
-     When User searches and clicks on the delete icon of the periode "sss"
+     When User searches and clicks on the delete icon of the periode "P_31"
     Then The delete confirmation message is displayed "Vous voulez supprimer cette période ?"
     When User clicks on "Oui, supprimer!"
     Then The success popup is displayed "Suppression !"
-    Then User is redirected to the list of périodes and "sss" does not exist in any page
+    Then User is redirected to the list of périodes and "P_31" does not exist in any page
 
    # Cancel deleting a Periode
   Scenario: Cancel deleting a periode
-    When User searches and clicks on the delete icon of the periode "Période39"
+    When User searches and clicks on the delete icon of the periode "Période_11"
     Then The delete confirmation message is displayed "Vous voulez supprimer cette période ?"
     When User clicks on "Annuler"
-    Then User is redirected to the list and "Période39" still exists in the list of périodes
+    Then User is redirected to the list and "Période_11" still exists in the list of périodes

@@ -9,13 +9,13 @@ Background:
 
 #Valid data
 Scenario Outline: Add a Periode with valid data
-    And User fills the form with the following data "P30", "10/10/2026", "30/12/2026" and clicks on save button
+    And User fills the form with the following data "P_33", "10/10/2026", "30/12/2026" and clicks on save button
     Then The confirmation message is displayed "Succès"
     Then The Annee Scolaire is added successfully
 
 #Invalid data (end date before start date)
 Scenario Outline: Add a Periode with invalid data
-    And User fills the form with the following data "Période 12", "30/06/2025", "01/09/2024" and clicks on save button
+    And User fills the form with the following data "Période_12", "30/06/2025", "01/09/2024" and clicks on save button
     Then The error popup is displayed "Erreur!" and the message "La date de fin doit être supérieure à la date de début." is displayed
 
  Scenario Outline: Add a Periode with empty fields
@@ -30,20 +30,20 @@ Scenario Outline: Add a Periode with invalid data
     
    # Ajouter Plus - add multiple periods at once
    Scenario: Add multiple Periodes using Ajouter Plus
-   And User fills the first form with the following data "Périodes22", "22/09/2026", "30/11/2026"
+   And User fills the first form with the following data "Périodes_29", "22/09/2026", "30/11/2026"
    When User clicks on "+ajouter plus" button 
-   And User fills the second form with the following data "Périodes33", "01/12/2026", "28/02/2027"
+   And User fills the second form with the following data "Périodes_39", "01/12/2026", "28/02/2027"
    Then User cliks on "+ajouter plus" button
-   And User fills the third form with the following data "Périodes44", "01/03/2027", "30/06/2027"
+   And User fills the third form with the following data "Périodes_49", "01/03/2027", "30/06/2027"
    And User clicks on save button
    Then The confirmation message is displayed "Succès"
    Then The three Periodes are added successfully
    
    # Ajouter Plus - remove a row
   Scenario: Remove a row added by Ajouter Plus
-    And User fills the first form with the following data "Période55", "22/09/2026", "30/11/2026"
+    And User fills the first form with the following data "Période_59", "22/09/2026", "30/11/2026"
     When User clicks on "+ajouter plus" button 
-    And User fills the second form with the following data "Période71", "01/12/2026", "28/02/2027"
+    And User fills the second form with the following data "Période_79", "01/12/2026", "28/02/2027"
     Then User clicks on the remove button of the first row
     And User clicks on save button
     Then The confirmation message is displayed "Succès"
