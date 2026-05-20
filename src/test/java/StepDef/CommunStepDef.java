@@ -43,7 +43,7 @@ System.out.println("Current title: " + Config.driver.getTitle());
     @When("User clicks on menu {string} then clicks on submenu {string} then clicks on subsubmenu {string} then clicks on subsubsubmenu {string}")
     public void user_clicks_on_menu_then_clicks_on_submenu_then_clicks_on_subsubmenu_then_clicks_on_subsubsubmenu(String menu, String subMenu, String subsubMenu, String subsubSubMenu) {
         MenuPage menuPage = new MenuPage();
-        menuPage.clickMenu(menu, subMenu, subsubMenu, subsubSubMenu);
+        menuPage.clickMenus(menu, subMenu, subsubMenu, subsubSubMenu);
     }
 
     @Then("The correct page is displayed with the title {string}")
