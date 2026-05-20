@@ -9,7 +9,7 @@ Background:
 
 #Valid data
 Scenario Outline: Add a Periode with valid data
-    And User fills the form with the following data "P_32", "10/10/2026", "30/12/2026" and clicks on save button
+    And User fills the form with the following data "P_33", "10/10/2026", "30/12/2026" and clicks on save button
     Then The confirmation message is displayed "Succès"
     Then The Annee Scolaire is added successfully
 
