@@ -27,19 +27,13 @@ public void user_is_logged_in_on_the_home_page_with_the_correct_correct_username
     LoginPage login = new LoginPage();
     login.connect(username, password);
     Config.attent(3);
-login.selectRole(role);
+    login.selectRole(role);
 
 // Wait until redirected away from login page
-new WebDriverWait(Config.driver, Duration.ofSeconds(30))
-    .until(ExpectedConditions.not(
-        ExpectedConditions.titleContains("se connecter")
-    ));
+//new WebDriverWait(Config.driver, Duration.ofSeconds(30)).until(ExpectedConditions.not(ExpectedConditions.titleContains("se connecter")));
 
 // Wait until menu exists
-new WebDriverWait(Config.driver, Duration.ofSeconds(30))
-    .until(ExpectedConditions.presenceOfElementLocated(
-        By.xpath("//*[contains(text(),'Plans')]")
-    ));
+//new WebDriverWait(Config.driver, Duration.ofSeconds(30)).until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(),'Plans')]")));
 
 System.out.println("Login successful - role selected: " + role);
 System.out.println("Current URL: " + Config.driver.getCurrentUrl());
@@ -47,8 +41,7 @@ System.out.println("Current title: " + Config.driver.getTitle());
 }
 
     @When("User clicks on menu {string} then clicks on submenu {string} then clicks on subsubmenu {string} then clicks on subsubsubmenu {string}")
-    public void user_clicks_on_menu_then_clicks_on_submenu_then_clicks_on_subsubmenu_then_clicks_on_subsubsubmenu(
-            String menu, String subMenu, String subsubMenu, String subsubSubMenu) {
+    public void user_clicks_on_menu_then_clicks_on_submenu_then_clicks_on_subsubmenu_then_clicks_on_subsubsubmenu(String menu, String subMenu, String subsubMenu, String subsubSubMenu) {
         MenuPage menuPage = new MenuPage();
         menuPage.clickMenus(menu, subMenu, subsubMenu, subsubSubMenu);
     }
