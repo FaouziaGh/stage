@@ -7,9 +7,9 @@ Background:
     
    #Update with Valid data
    Scenario Outline: Update a Periode with valid data 
-   When User searches and clicks on the update icone of the periode "@+"
+   When User searches and clicks on the update icone of the periode "sssssssssssssssssssssssssssssssssstsssssssssssssss"
    And The update popup that contains the title "Modifier période" is displayed
-   Then User update the form with the following data "Per1", "01/10/2026", "30/12/2026" and clicks on update button
+   Then User update the form with the following data "Periode modifié", "01/10/2026", "20/12/2026" and clicks on update button
    Then The update confirmation message is displayed "La période a été modifiée avec succès."
    Then The Periode is updated successfully
    
