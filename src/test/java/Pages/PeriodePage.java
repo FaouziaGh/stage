@@ -358,13 +358,12 @@ public class PeriodePage {
 	
 	// ── Verify error message displayed under ANY field with invalid data across ALL rows
 	public void verifInvalidFieldError(String expectedMessage) {
-    Config.attent(5);
-
-    int totalRows = periodeNames.size();
-    System.out.println("Total rows: " + totalRows);
-
-    List<String> rowsWithError = new ArrayList<>();
-    List<String> rowsWithoutError = new ArrayList<>();
+		Config.attent(5);
+		int totalRows = periodeNames.size();
+		System.out.println("Total rows: " + totalRows);
+		
+		List<String> rowsWithError = new ArrayList<>();
+		List<String> rowsWithoutError = new ArrayList<>();
 
     // Check every possible error span structure for each row
     for (int i = 0; i < totalRows; i++) {

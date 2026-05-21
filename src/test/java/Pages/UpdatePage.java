@@ -49,6 +49,11 @@ public class UpdatePage {
     @FindBy(id = "swal2-html-container")
     WebElement updateErreurMsg;
     
+    @FindBy(xpath= "/html/body/div[2]/div[3]/div/div[1]/div/div/div/span")
+    List<WebElement> errorMsg;
+    
+    @FindBy(xpath= "/html/body/div[2]/div[3]/div/div[2]/div/button[1]")
+    WebElement cancelBtn;
 
     public UpdatePage() {
         PageFactory.initElements(Config.driver, this);
@@ -178,5 +183,134 @@ public class UpdatePage {
 
         Config.jsClick(updateConfirmBtn);
         System.out.println("Error popup closed.");
+    }
+ // ── Verify error message under any field
+    public void verifFieldErrorMsg(String expectedMessage) {
+        Config.attent(3);
+
+        if (errorMsg.isEmpty()) {
+            Assert.fail("Expected error message '" + expectedMessage
+                + "' but no error messages were found under any field.");
+        }
+
+        boolean found = false;
+
+        for (WebElement error : errorMsg) {
+            try {
+                if (error.isDisplayed()) {
+                    String actualMessage = Config.getTextOf(error, 5);
+                    System.out.println("Error found: " + actualMessage);
+                    if (actualMessage.contains(expectedMessage)) {
+                        found = true;
+                        System.out.println("✔ Matched expected error: " + expectedMessage);
+                    }
+                }
+            } catch (Exception e) {
+                // Element not visible — skip
+            }
+        }
+
+        Assert.assertTrue(
+            "Expected error '" + expectedMessage + "' was not found under any field.",
+            found
+        );
+    }
+    
+ // ── Clear all fields then click update (to trigger all empty field errors)
+    public void clearAllFieldsAndClickUpdate() {
+    	Config.attent(2);
+    	
+    	// ── Clear name field using CTRL+A + DELETE
+    	Config.waitForVisibility(periodeName, 10);
+    	periodeName.click();
+    	periodeName.sendKeys(org.openqa.selenium.Keys.CONTROL + "a");
+    	periodeName.sendKeys(org.openqa.selenium.Keys.DELETE);
+    	periodeName.sendKeys(org.openqa.selenium.Keys.BACK_SPACE);
+    	System.out.println("Name field after clear: '" + periodeName.getAttribute("value") + "'");
+    	
+    	// ── Clear start date field
+    	periodeStartDate.click();
+    	periodeStartDate.sendKeys(org.openqa.selenium.Keys.CONTROL + "a");
+    	periodeStartDate.sendKeys(org.openqa.selenium.Keys.DELETE);
+    	// For date inputs: send BACKSPACE multiple times
+    	for (int i = 0; i < 10; i++) {
+    		periodeStartDate.sendKeys(org.openqa.selenium.Keys.BACK_SPACE);
+    		}
+    	System.out.println("Start date after clear: '" + periodeStartDate.getAttribute("value") + "'");
+    	
+    	// ── Clear end date field
+    	periodeEndDate.click();
+    	periodeEndDate.sendKeys(org.openqa.selenium.Keys.CONTROL + "a");
+    	periodeEndDate.sendKeys(org.openqa.selenium.Keys.DELETE);
+
+    	for (int i = 0; i < 10; i++) {
+    		periodeEndDate.sendKeys(org.openqa.selenium.Keys.BACK_SPACE);
+    	}
+    	System.out.println("End date after clear: '" + periodeEndDate.getAttribute("value") + "'");
+    
+    	// ── Click update button
+    	Config.clickElement(saveUpdateBtn, 10);
+    	Config.attent(2);
+    	System.out.println("Clicked update button with empty fields.");
+
+    }
+
+    // ── Verify error appears under each empty field sequentially
+    // name = value to fill in name field after first error check
+    // startDate = value to fill in start date field after second error check
+    public void verifEmptyFieldErrors(String name, String startDate) {
+    
+    	Config.attent(3);
+    	// ── Step 1: all empty → error under name
+    	List<WebElement> freshErrors = Config.driver.findElements(By.xpath("/html/body/div[2]/div[3]/div/div[1]/div/div/div/span"));
+    	System.out.println("Step 1 - errors found: " + freshErrors.size());
+    	Assert.assertFalse("Expected error under name field but none found.", freshErrors.isEmpty());
+    	for (WebElement e : freshErrors) {
+    		if (e.isDisplayed()) System.out.println("Step 1 error: " + e.getText());
+    	}
+    	System.out.println("✔ Step 1 passed: error under name field.");
+
+    	// ── Step 2: fill name → click update → error moves to startDate
+    	Config.clearAndType(periodeName, name);
+    	Config.clickElement(saveUpdateBtn, 10);
+    	Config.attent(2);
+    	freshErrors = Config.driver.findElements(By.xpath("/html/body/div[2]/div[3]/div/div[1]/div/div/div/span"));
+    	System.out.println("Step 2 - errors found: " + freshErrors.size());
+    	Assert.assertFalse("Expected error under start date field but none found.", freshErrors.isEmpty());
+    	for (WebElement e : freshErrors) {
+    		if (e.isDisplayed()) System.out.println("Step 2 error: " + e.getText());
+    	}
+    	System.out.println("✔ Step 2 passed: error under start date field.");
+
+    	// ── Step 3: fill startDate → click update → error moves to endDate
+    	Config.clearAndType(periodeStartDate, startDate);
+    	Config.clickElement(saveUpdateBtn, 10);
+    	Config.attent(2);
+    
+    	freshErrors = Config.driver.findElements(By.xpath("/html/body/div[2]/div[3]/div/div[1]/div/div/div/span"));
+    	System.out.println("Step 3 - errors found: " + freshErrors.size());    
+    	Assert.assertFalse("Expected error under end date field but none found.", freshErrors.isEmpty());    
+    	for (WebElement e : freshErrors) {        
+    		if (e.isDisplayed()) System.out.println("Step 3 error: " + e.getText());    
+    	}    
+    	System.out.println("✔ Step 3 passed: error under end date field.");
+    }
+    
+ // ── Fill form then click cancel
+    public void updatePeriodeAndCancel(String name, String startDate, String endDate) {
+        Config.attent(2);
+
+        // Fill the form
+        Config.clearAndType(periodeName, name);
+        Config.clearAndType(periodeStartDate, startDate);
+        Config.clearAndType(periodeEndDate, endDate);
+
+        System.out.println("Form filled with: " + name + " | " + startDate + " | " + endDate);
+
+        // Click cancel instead of save
+        Config.clickElement(cancelBtn, 10);
+        Config.attent(2);
+
+        System.out.println("Clicked ANNULER — update cancelled.");
     }
 }

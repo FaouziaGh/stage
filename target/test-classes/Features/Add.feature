@@ -65,5 +65,6 @@ Scenario Outline: Add a Periode with invalid data
     When User clicks on "Annuler" button
     Then User is redirected to the list and "Période Annulée" does not exist in any page
     
+    
 
    
