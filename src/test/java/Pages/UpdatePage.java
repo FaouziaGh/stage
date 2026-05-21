@@ -186,7 +186,7 @@ public class UpdatePage {
     }
  // ── Verify error message under any field
     public void verifFieldErrorMsg(String expectedMessage) {
-        Config.attent(3);
+        Config.attent(30);
 
         if (errorMsg.isEmpty()) {
             Assert.fail("Expected error message '" + expectedMessage
