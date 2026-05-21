@@ -7,18 +7,9 @@ Background:
    
    #Update with Valid data
    Scenario Outline: Update a Periode with valid data 
-<<<<<<< HEAD
    When User searches and clicks on the update icone of the periode "periode nb4"
    And The update popup that contains the title "Modifier période" is displayed
    Then User update the form with the following data "periode nb2", "01/10/2026", "30/12/2026" and clicks on update button
-   Then The update confirmation message is displayed "La période a été modifiée avec succès."
-   Then The Periode is updated successfully
-   
-   
-=======
-   When User searches and clicks on the update icone of the periode "Période 20"
-   And The update popup that contains the title "Modifier période" is displayed
-   Then User update the form with the following data "periode nb5", "01/10/2026", "30/12/2026" and clicks on update button
    Then The update confirmation message is displayed "La période a été modifiée avec succès."
    Then The Periode is updated successfully
    
@@ -36,7 +27,7 @@ Background:
     Then User update the form with the following data "Période 2025", "15/08/2024", "30/069/2025" and clicks on update button
     Then The error popup is displayed "Erreur!" and the message "Le nom de la periode existant :" is displayed
     
-    #Update Invalid data (a name containing only special characters )
+   #Update Invalid data (a name containing only special characters )
    Scenario Outline: Update a Periode with invalid Name 
    When User searches and clicks on the update icone of the periode "Période39"
    And The update popup that contains the title "Modifier période" is displayed
@@ -56,10 +47,11 @@ Background:
    And The update popup that contains the title "Modifier période" is displayed
    Then User cleared each field then clicked on update button
    Then Error messages are displayed under each empty field with data "Période17", "22/09/2026"
+   
    #Annule - Update a Periode and then cancel it (update a name)
    Scenario: Update a Periode name and then cancel it
    When User searches and clicks on the update icone of the periode "Période13"
    And The update popup that contains the title "Modifier période" is displayed
    Then User update the form with the following data "Période Annulée", "01/07/2026", "30/08/2026" and clicks on cancel button
    Then User is redirected to the period list and "Période Annulée" does not exist
->>>>>>> 4fb669c9997208c4c2826b04516dd10d44ffd180
+
