@@ -7,15 +7,9 @@ Background:
    
    #Update with Valid data
    Scenario Outline: Update a Periode with valid data 
-<<<<<<< HEAD
    When User searches and clicks on the update icone of the periode "periode nb3"
    And The update popup that contains the title "Modifier période" is displayed
    Then User update the form with the following data "periode nb4", "01/10/2026", "30/12/2026" and clicks on update button
-=======
-   When User searches and clicks on the update icone of the periode "P20"
-   And The update popup that contains the title "Modifier période" is displayed
-   Then User update the form with the following data "Periode modifié 1", "02/09/2026", "30/11/2026" and clicks on update button
->>>>>>> f78980324866c6e77f4b08560429a075342e62d6
    Then The update confirmation message is displayed "La période a été modifiée avec succès."
    Then The Periode is updated successfully
    
@@ -25,12 +19,6 @@ Background:
    When User searches and clicks on the update icone of the periode "P19"
    And The update popup that contains the title "Modifier période" is displayed
    Then User update the form with the following data "Périod19", "01/10/2026", "30/08/2025" and clicks on update button
-=======
-   Scenario Outline: Update a Periode with invalid data 
-   When User searches and clicks on the update icone of the periode "Périod"
-   And The update popup that contains the title "Modifier période" is displayed
-   Then User update the form with the following data "Période modif", "01/10/2026", "30/08/2025" and clicks on update button
->>>>>>> f78980324866c6e77f4b08560429a075342e62d6
    And The update error popup is displayed "Erreur!" and the message "La date de fin doit être supérieure à la date de début." is displayed
     
    # Update with Duplicate name

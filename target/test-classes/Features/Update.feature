@@ -14,6 +14,7 @@ Background:
    Then The Periode is updated successfully
    
    #Update Invalid date (end date before start date)
+<<<<<<< HEAD
    Scenario Outline: Update a Periode with invalid dates 
    When User searches and clicks on the update icone of the periode "P19"
    And The update popup that contains the title "Modifier période" is displayed
