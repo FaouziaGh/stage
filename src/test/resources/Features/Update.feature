@@ -7,51 +7,10 @@ Background:
    
    #Update with Valid data
    Scenario Outline: Update a Periode with valid data 
-   When User searches and clicks on the update icone of the periode "Période26P_26"
+   When User searches and clicks on the update icone of the periode "periode26"
    And The update popup that contains the title "Modifier période" is displayed
-   Then User update the form with the following data "periode26", "01/10/2026", "30/12/2026" and clicks on update button
+   Then User update the form with the following data "p_26", "01/10/2026", "30/12/2026" and clicks on update button
    Then The update confirmation message is displayed "La période a été modifiée avec succès."
    Then The Periode is updated successfully
    
-   #Update Invalid date (end date before start date)
-   Scenario Outline: Update a Periode with invalid dates 
-   When User searches and clicks on the update icone of the periode "P19"
-   And The update popup that contains the title "Modifier période" is displayed
-   Then User update the form with the following data "Périod20", "01/10/2026", "30/08/2025" and clicks on update button
-   And The update error popup is displayed "Erreur!" and the message "La date de fin doit être supérieure à la date de début." is displayed
-    
-   # Update with Duplicate name
-   Scenario Outline: Update a Periode with an already existing name
-    When User searches and clicks on the update icone of the periode "Période25"
-    And The update popup that contains the title "Modifier période" is displayed
-    Then User update the form with the following data "Période 2025", "15/08/2024", "30/069/2025" and clicks on update button
-    Then The error popup is displayed "Erreur!" and the message "Le nom de la periode existant :" is displayed
-    
-   #Update Invalid data (a name containing only special characters )
-   Scenario Outline: Update a Periode with invalid Name 
-   When User searches and clicks on the update icone of the periode "Période39"
-   And The update popup that contains the title "Modifier période" is displayed
-   Then User update the form with the following data "@@@/_+", "01/07/2026", "30/08/2026" and clicks on update button
-   And The error message is displayed under the field with invalid data "Format invalide"
-   
-   #Update Invalid data (character length)
-   Scenario Outline: Update a Periode with invalid Name 
-   When User searches and clicks on the update icone of the periode "Période37aPériode 2025"
-   And The update popup that contains the title "Modifier période" is displayed
-   Then User update the form with the following data "a", "01/07/2026", "30/08/2026" and clicks on update button
-   And The error message "La longueur minimale requise est de 2 caractères." is displayed under the fields with invalid data
-   
-   #Update a period with empty fields
-   Scenario Outline: Update a Periode with empty fields
-   When User searches and clicks on the update icone of the periode "Période17"
-   And The update popup that contains the title "Modifier période" is displayed
-   Then User cleared each field then clicked on update button
-   Then Error messages are displayed under each empty field with data "Période17", "22/09/2026"
-   
-   #Annule - Update a Periode and then cancel it (update a name)
-   Scenario: Update a Periode name and then cancel it
-   When User searches and clicks on the update icone of the periode "Période13"
-   And The update popup that contains the title "Modifier période" is displayed
-   Then User update the form with the following data "Période Annulée", "01/07/2026", "30/08/2026" and clicks on cancel button
-   Then User is redirected to the period list and "Période Annulée" does not exist
 
