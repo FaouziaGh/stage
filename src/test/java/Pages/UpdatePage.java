@@ -110,8 +110,58 @@ public class UpdatePage {
             pageNumber++;
         }
     }
+    
+    public void updatePeriode(String name, String startDate, String endDate) {
+        Config.waitForVisibility(periodeName, 10);
 
-    // ────────────────────────────────────────────
+        clearField(periodeName);
+        periodeName.sendKeys(name);
+
+        clearField(periodeStartDate);
+        periodeStartDate.sendKeys(startDate);
+
+        clearField(periodeEndDate);
+        periodeEndDate.sendKeys(endDate);
+
+        Config.clickElement(saveUpdateBtn, 10);
+        System.out.println("Update form submitted: " + name + " | " + startDate + " | " + endDate);
+    }
+    
+    private void clearField(WebElement field) {
+        Config.waitForVisibility(field, 10);
+        field.click();
+        Config.attent(1);
+
+        // Select all text then delete — works on both local and Jenkins
+        field.sendKeys(Keys.CONTROL + "a");
+        Config.attent(1);
+        field.sendKeys(Keys.DELETE);
+        Config.attent(1);
+        field.sendKeys(Keys.BACK_SPACE);
+
+        // Verify field is cleared
+        String value = field.getAttribute("value");
+        System.out.println("Field cleared. Current value: '" + value + "'");
+
+        // If still not empty — try JavaScript as last resort
+        if (value != null && !value.isEmpty()) {
+            System.out.println("Field not empty after keys — trying JS clear...");
+            ((org.openqa.selenium.JavascriptExecutor) Config.driver)
+                .executeScript("arguments[0].value = '';", field);
+            field.sendKeys(Keys.SPACE);
+            field.sendKeys(Keys.BACK_SPACE);
+            System.out.println("After JS clear: '" + field.getAttribute("value") + "'");
+        }
+    }
+
+    private void clearFields(WebElement field) {
+        Config.waitForVisibility(field, 10);
+        field.click();
+        field.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        field.sendKeys(Keys.BACK_SPACE);
+        System.out.println("Field cleared. Current value: '" + field.getAttribute("value") + "'");
+    }
+ // ────────────────────────────────────────────
     // ── Verify update popup title
     // ────────────────────────────────────────────
     public void verifUpdatePopup(String expectedTitle) {
@@ -120,7 +170,23 @@ public class UpdatePage {
         System.out.println("Update popup title: " + actualTitle);
         Assert.assertEquals("Update popup title mismatch", expectedTitle, actualTitle);
     }
+    
+ // ────────────────────────────────────────────
+    // ── Verify update confirmation message
+    // ────────────────────────────────────────────
+    public void verifUpdateConfirmMsg(String expectedMsg) {
+        // ── Use Config.getTextOf instead of WebDriverWait
+        String actualMsg = Config.getTextOf(updateConfirmMsg, 10);
+        System.out.println("Update confirmation: " + actualMsg);
+        Assert.assertTrue(
+            "Expected: " + expectedMsg + " but was: " + actualMsg,
+            actualMsg.contains(expectedMsg)
+        );
 
+        // ── Use Config.clickElement instead of WebDriverWait
+        Config.clickElement(updateConfirmBtn, 10);
+        Config.attent(2);
+    }
     // ────────────────────────────────────────────
     // ── Fill update form and click save
     // ────────────────────────────────────────────
@@ -150,47 +216,6 @@ public class UpdatePage {
 
         Config.clickElement(saveUpdateBtn, 10);
         System.out.println("Update form submitted: " + name + " | " + startDate + " | " + endDate);
-    }
-    
-    public void updatePeriode(String name, String startDate, String endDate) {
-        Config.waitForVisibility(periodeName, 10);
-
-        clearField(periodeName);
-        periodeName.sendKeys(name);
-
-        clearField(periodeStartDate);
-        periodeStartDate.sendKeys(startDate);
-
-        clearField(periodeEndDate);
-        periodeEndDate.sendKeys(endDate);
-
-        Config.clickElement(saveUpdateBtn, 10);
-        System.out.println("Update form submitted: " + name + " | " + startDate + " | " + endDate);
-    }
-
-    private void clearField(WebElement field) {
-        Config.waitForVisibility(field, 10);
-        field.click();
-        field.sendKeys(Keys.chord(Keys.CONTROL, "a"));
-        field.sendKeys(Keys.BACK_SPACE);
-        System.out.println("Field cleared. Current value: '" + field.getAttribute("value") + "'");
-    }
-
-    // ────────────────────────────────────────────
-    // ── Verify update confirmation message
-    // ────────────────────────────────────────────
-    public void verifUpdateConfirmMsg(String expectedMsg) {
-        // ── Use Config.getTextOf instead of WebDriverWait
-        String actualMsg = Config.getTextOf(updateConfirmMsg, 10);
-        System.out.println("Update confirmation: " + actualMsg);
-        Assert.assertTrue(
-            "Expected: " + expectedMsg + " but was: " + actualMsg,
-            actualMsg.contains(expectedMsg)
-        );
-
-        // ── Use Config.clickElement instead of WebDriverWait
-        Config.clickElement(updateConfirmBtn, 10);
-        Config.attent(2);
     }
     
     public void verifUpdateErrorPopup(String expectedTitle, String expectedMessage) {
