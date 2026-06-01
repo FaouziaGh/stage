@@ -8,6 +8,7 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
     features = "src/test/resources/Features",   // ← whole folder, not one file
     glue = "StepDef",
+    tags = "@login",
     plugin = {
         "pretty",
         "html:target/cucumber-reports/cucumber.html",  // ← was target/cucumber/
