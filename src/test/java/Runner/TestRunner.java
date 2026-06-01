@@ -9,7 +9,7 @@ import io.cucumber.junit.CucumberOptions;
 
 @CucumberOptions(
         //features ="src\\test\\resources\\Features\\Update.feature",
-        features = "src/test/resources/Features/Update.feature",
+        features = "src/test/resources/Features/LoginPage.feature",
         glue="StepDef",
         plugin = {
                 "pretty",
