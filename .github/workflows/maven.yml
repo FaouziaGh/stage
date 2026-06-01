@@ -97,7 +97,6 @@ jobs:
           path: screenshots/
           retention-days: 7
           if-no-files-found: warn
-
       # Print the live Allure report URL at the end
       - name: Print Allure Report URL
         if: always()
