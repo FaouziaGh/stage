@@ -30,8 +30,8 @@ jobs:
         run: google-chrome --version
 
       - name: Run Selenium + Cucumber Tests
-        run: mvn clean test
-        continue-on-error: true  # Let report steps always run
+        run: mvn clean test -e
+        continue-on-error: true
 
       - name: Install Allure CLI
         run: |
@@ -46,6 +46,14 @@ jobs:
           allure generate target/allure-results \
             --clean \
             -o target/allure-report
+
+      - name: Upload Surefire Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
+          retention-days: 7
 
       - name: Upload Allure Report
         if: always()
