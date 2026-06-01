@@ -53,11 +53,11 @@ jobs:
       # ========================
       # Install Chrome
       # ========================
-      - name: Install Google Chrome
-        uses: browser-actions/setup-chrome@v1
+      # - name: Install Google Chrome
+      #   uses: browser-actions/setup-chrome@v1
 
-      - name: Verify Chrome Installation
-        run: google-chrome --version
+      # - name: Verify Chrome Installation
+      #   run: google-chrome --version
 
       # ========================
       # Run Tests
