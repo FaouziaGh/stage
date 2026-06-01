@@ -9,7 +9,6 @@ env:
   ALLURE_VERSION: "2.34.1"
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
-# Required for GitHub Pages deployment
 permissions:
   contents: write
 
@@ -38,6 +37,23 @@ jobs:
         run: mvn clean test -e
         continue-on-error: true
 
+      # ── DEBUG: confirm results were written ──────────────────────────────
+      - name: Debug Test Output
+        if: always()
+        run: |
+          echo "======= allure-results ======="
+          ls -la target/allure-results/ 2>/dev/null \
+            || echo "❌ MISSING - Allure plugin not writing results"
+
+          echo "======= cucumber-reports ======="
+          ls -la target/cucumber-reports/ 2>/dev/null \
+            || echo "❌ MISSING - Cucumber HTML/JSON plugin not configured"
+
+          echo "======= surefire-reports ======="
+          ls -la target/surefire-reports/ 2>/dev/null \
+            || echo "❌ MISSING"
+      # ─────────────────────────────────────────────────────────────────────
+
       - name: Install Allure CLI
         if: always()
         run: |
@@ -53,7 +69,18 @@ jobs:
             --clean \
             -o target/allure-report
 
-      # Publish Allure to GitHub Pages so it loads properly (no more loading spinner)
+      # ── DEBUG: confirm report was built ──────────────────────────────────
+      - name: Debug Allure Report
+        if: always()
+        run: |
+          echo "======= allure-report ======="
+          ls -la target/allure-report/ 2>/dev/null \
+            || echo "❌ MISSING - allure generate failed"
+          echo "======= index.html exists? ======="
+          test -f target/allure-report/index.html \
+            && echo "✅ YES" || echo "❌ NO"
+      # ─────────────────────────────────────────────────────────────────────
+
       - name: Deploy Allure Report to GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
@@ -62,6 +89,7 @@ jobs:
           publish_dir: target/allure-report
           publish_branch: gh-pages
           destination_dir: allure-report
+          force_orphan: true          # ← cleans stale deployments
 
       - name: Upload Allure Report as Artifact
         if: always()
@@ -97,8 +125,9 @@ jobs:
           path: screenshots/
           retention-days: 7
           if-no-files-found: warn
-      # Print the live Allure report URL at the end
+
       - name: Print Allure Report URL
         if: always()
         run: |
-          echo "✅ Allure Report: https://${{ github.repository_owner }}.github.io/$(echo '${{ github.repository }}' | cut -d'/' -f2)/allure-report"
+          REPO=$(echo '${{ github.repository }}' | cut -d'/' -f2)
+          echo "✅ Allure Report: https://${{ github.repository_owner }}.github.io/${REPO}/allure-report/index.html"
