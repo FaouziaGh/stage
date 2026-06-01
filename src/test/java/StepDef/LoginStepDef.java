@@ -12,8 +12,8 @@ import io.cucumber.java.en.When;
 public class LoginStepDef {
 	@Given("admin is on login page") 
 	public void admin_is_on_login_page() throws Exception{
-		Config.driver = new ChromeDriver();
-	    Config.maximazwindow();
+		//Config.driver = new ChromeDriver();
+		Config.maximazwindow();  // ← this now creates the driver WITH headless flags
 	    
 	    Config.driver.get(Utils.getProperty("Login_link"));
 	}
