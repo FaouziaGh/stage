@@ -37,27 +37,24 @@ public class Config {
     //     driver = new ChromeDriver(options);
     // }
 
-    public static void maximazwindow() {
-
+   public static void maximazwindow() {
     ChromeOptions options = new ChromeOptions();
 
-    boolean isCI =
-            System.getProperty("jenkins") != null
+    if (System.getProperty("jenkins") != null
             || System.getenv("JENKINS_HOME") != null
-            || System.getenv("CI") != null;
+            || System.getenv("CI") != null) {
 
-    if (isCI) {
-        options.addArguments("--headless=new"); // ✅ IMPORTANT FIX
+        options.addArguments("--headless=new"); // IMPORTANT (modern headless)
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--window-size=1920,1080");
         options.addArguments("--disable-gpu");
         options.addArguments("--remote-allow-origins=*");
 
-        System.out.println("Running in headless CI mode");
+        System.out.println("Running in headless mode (CI/Jenkins)");
     } else {
         options.addArguments("--start-maximized");
-        System.out.println("Running in local mode");
+        System.out.println("Running in normal mode (local)");
     }
 
     driver = new ChromeDriver(options);
