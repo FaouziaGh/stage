@@ -44,7 +44,7 @@ public class CommunStepDef {
     //     //System.out.println("Current title: " + Config.driver.getTitle());
     //     }
 
-    @Given("User is logged in on the home page...")
+    @Given("User is logged in on the home page with the correct correct username {string} and correct password {string} and role {string}")
     public void user_is_logged_in_on_the_home_page_with_the_correct_correct_username_and_correct_password_and_role(
         String username, String password, String role) throws Exception {
         Config.maximazwindow();  // ← replace ALL the ChromeOptions block with this one line
