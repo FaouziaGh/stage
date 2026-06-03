@@ -9,18 +9,18 @@ Background:
 
 #Valid data
 Scenario Outline: Add a Periode with valid data
-    And User fills the form with the following data "P_33", "10/10/2026", "30/12/2026" and clicks on save button
+    And User fills the form with the following data "PT_1", "10/10/2026", "30/12/2026" and clicks on save button
     Then The confirmation message is displayed "Succès"
     Then The Annee Scolaire is added successfully
 
 #Invalid data (end date before start date)
 Scenario Outline: Add a Periode with invalid data
-    And User fills the form with the following data "Période_12", "30/06/2025", "01/09/2024" and clicks on save button
+    And User fills the form with the following data "PT_2", "30/06/2025", "01/09/2024" and clicks on save button
     Then The error popup is displayed "Erreur!" and the message "La date de fin doit être supérieure à la date de début." is displayed
 
  Scenario Outline: Add a Periode with empty fields
     When User clicks save without filling the form
-    Then Error messages are displayed under empty fields with data "test7", "01/09/2024"
+    Then Error messages are displayed under empty fields with data "test22", "01/09/2024"
 
   
   # Duplicate name
@@ -30,20 +30,20 @@ Scenario Outline: Add a Periode with invalid data
     
    # Ajouter Plus - add multiple periods at once
    Scenario: Add multiple Periodes using Ajouter Plus
-   And User fills the first form with the following data "Périodes_29", "22/09/2026", "30/11/2026"
+   And User fills the first form with the following data "PériodeTest1", "22/09/2026", "30/11/2026"
    When User clicks on "+ajouter plus" button 
-   And User fills the second form with the following data "Périodes_39", "01/12/2026", "28/02/2027"
+   And User fills the second form with the following data "PériodeTest2", "01/12/2026", "28/02/2027"
    Then User cliks on "+ajouter plus" button
-   And User fills the third form with the following data "Périodes_49", "01/03/2027", "30/06/2027"
+   And User fills the third form with the following data "PériodeTest3", "01/03/2027", "30/06/2027"
    And User clicks on save button
    Then The confirmation message is displayed "Succès"
    Then The three Periodes are added successfully
    
    # Ajouter Plus - remove a row
   Scenario: Remove a row added by Ajouter Plus
-    And User fills the first form with the following data "Période_59", "22/09/2026", "30/11/2026"
+    And User fills the first form with the following data "PériodeTest4", "22/09/2026", "30/11/2026"
     When User clicks on "+ajouter plus" button 
-    And User fills the second form with the following data "Période_79", "01/12/2026", "28/02/2027"
+    And User fills the second form with the following data "PériodeTest5", "01/12/2026", "28/02/2027"
     Then User clicks on the remove button of the first row
     And User clicks on save button
     Then The confirmation message is displayed "Succès"
@@ -55,7 +55,7 @@ Scenario Outline: Add a Periode with invalid data
     When User cliks on "+ajouter plus" button
     And User fills the second form with the following data "@", "01/12/2026", "28/02/2027"
     Then User clicks on "+ajouter plus" button
-    And User fills the third form with the following data "Période5", "01/03/2027", "30/06/2027"
+    And User fills the third form with the following data "Période3", "01/03/2027", "30/06/2027"
     And User clicks on save button
     Then The error message is displayed under the field with invalid data "La longueur minimale requise est de 2 caractères."
     
