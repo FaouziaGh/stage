@@ -14,7 +14,7 @@ public class DeletePeriodStepDef {
 	
 	@Given("User is on the page")
 	public void user_is_on_the_page() throws Exception {
-		Config.driver = new ChromeDriver();
+		//Config.driver = new ChromeDriver();
 		Config.maximazwindow();
 		Config.driver.get(Utils.getProperty("HomePage_link"));
 		
