@@ -125,15 +125,23 @@ public class PeriodePage {
 		//}
 	//}
 
-	public void clickPeriodeAddButton(String addBtn) {
-		Config.attent(10);
-		if(addButton.getText().trim().equalsIgnoreCase(addBtn.trim())) {
+	// public void clickPeriodeAddButton(String addBtn) {
+	// 	Config.attent(10);
+	// 	if(addButton.getText().trim().equalsIgnoreCase(addBtn.trim())) {
 			
-			Config.waitAndClick(addButton, 30);
-			addButton.click();
-		}
-	}
+	// 		Config.waitAndClick(addButton, 30);
+	// 		addButton.click();
+	// 	}
+	// }
+public void clickPeriodeAddButton(String addBtn) {
+    // Wait for any overlay/spinner to disappear first
+    new WebDriverWait(Config.driver, Duration.ofSeconds(15))
+        .until(ExpectedConditions.elementToBeClickable(addButton));
 
+    if (addButton.getText().trim().equalsIgnoreCase(addBtn.trim())) {
+        Config.jsClick(addButton);  // ← single JS click, bypasses overlay
+    }
+}
 
 	public void verifAddPeriode(String title) {
     try {
@@ -166,17 +174,27 @@ public class PeriodePage {
 		Assert.assertEquals(title, actualText);
 	}
 	
+	// public void addPeriode(String name, String startDate, String endDate) {
+	// 	Config.attent(10);
+	// 	Config.waitForVisibility(periodeName, 20);
+	// 	periodeName.sendKeys(name);
+	// 	Config.waitForVisibility(periodeStartDate, 20);
+	// 	periodeStartDate.sendKeys(startDate);
+	// 	Config.waitForVisibility(periodeEndDate, 20);
+	// 	periodeEndDate.sendKeys(endDate);
+	// 	Config.waitAndClick(saveButton, 20);
+	// 	Config.jsClick(saveButton);
+	// 	//saveButton.click();
+	// }
+
 	public void addPeriode(String name, String startDate, String endDate) {
-		Config.attent(10);
 		Config.waitForVisibility(periodeName, 20);
 		periodeName.sendKeys(name);
 		Config.waitForVisibility(periodeStartDate, 20);
 		periodeStartDate.sendKeys(startDate);
 		Config.waitForVisibility(periodeEndDate, 20);
 		periodeEndDate.sendKeys(endDate);
-		Config.waitAndClick(saveButton, 20);
-		Config.jsClick(saveButton);
-		//saveButton.click();
+		Config.jsClick(saveButton);  // ← single JS click only
 	}
 	
 	public void addPeriodeWhithOutSave(String name, String startDate, String endDate) {
