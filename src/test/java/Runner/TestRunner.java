@@ -8,7 +8,7 @@ import io.cucumber.junit.CucumberOptions;
 @RunWith(Cucumber.class)
 
 @CucumberOptions(
-        features ="src\\test\\resources\\Features\\LoginPage.feature",
+        features ="src\\test\\resources\\Features\\Add.feature",
         glue="StepDef",
         plugin = {
                 "pretty",

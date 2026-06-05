@@ -35,13 +35,24 @@ public class LoginPage {
 	}
 	
 	public void connect(String uname, String pwd) {
-		Config.waitForVisibility(username, 10);
+	    // Wait for username field to be visible before typing
+	    Config.waitForVisibility(username, 15);
 	    username.sendKeys(uname);
-	    Config.waitForVisibility(password, 10);
+
+	    Config.waitForVisibility(password, 15);
 	    password.sendKeys(pwd);
-	    Config.waitAndClick(loginButton, 20);
-	    Config.jsClick(loginButton);
+
+	    // Wait for login button to be clickable then click
+	    Config.waitAndClick(loginButton, 15);
 	}
+//	public void connect(String uname, String pwd) {
+//		Config.waitForVisibility(username, 10);
+//	    username.sendKeys(uname);
+//	    Config.waitForVisibility(password, 10);
+//	    password.sendKeys(pwd);
+//	    Config.waitAndClick(loginButton, 20);
+//	    Config.jsClick(loginButton);
+//	}
 	
 	public void selectRole(String roleName) {
 		Config.attent(20);
