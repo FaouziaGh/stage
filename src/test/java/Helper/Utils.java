@@ -23,8 +23,7 @@ import java.util.Properties;
 public class Utils {
     public static String getProperty(String property) throws Exception {
         // Load from classpath - works in CI/local/IDE
-        InputStream input = Utils.class.getClassLoader()
-            .getResourceAsStream("Properties/properties");
+        InputStream input = Utils.class.getClassLoader().getResourceAsStream("Properties/properties");
         
         if (input == null) {
             throw new IllegalArgumentException("Property file not found on classpath!");

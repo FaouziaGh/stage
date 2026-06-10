@@ -43,4 +43,17 @@ public class FilterPageStepDef {
         filter.verifStartDateFilter(date);
         Config.driver.quit();
     }
+    
+    @Then("User fills the end date field with the required date {string}")
+    public void user_fills_end_date_field(String date) {
+        FilterPage filterPage = new FilterPage();
+        filterPage.fillEndDateFilter(date);
+    }
+
+    @Then("All the periodes with end date less than or equal to {string} are displayed")
+    public void all_periodes_with_end_date_less_than(String date) {
+        FilterPage filterPage = new FilterPage();
+        filterPage.verifEndDateFilter(date);
+        Config.driver.quit();
+    }
 }

@@ -1,3 +1,4 @@
+@delete
 Feature: Delete Periode 
 
 
@@ -5,14 +6,14 @@ Feature: Delete Periode
     Given User is logged in on the home page with the correct correct username "faouzia.gharbi111@gmail.com" and correct password "Faouzia@2026!" and role "college"
     When User clicks on menu "Plans d'etudes" then clicks on submenu "Paramétrage" then clicks on subsubmenu "Années scolaires" then clicks on subsubsubmenu "Périodes"
     Then The correct page is displayed with the title "Liste des périodes"
-
+    
   # Delete a Periode
   Scenario: Delete a Periode
-     When User searches and clicks on the delete icon of the periode "PériodaPériode modif"
+     When User searches and clicks on the delete icon of the periode "periode nb2periode nb6"
     Then The delete confirmation message is displayed "Vous voulez supprimer cette période ?"
     When User clicks on "Oui, supprimer!"
     Then The success popup is displayed "Suppression !"
-    Then User is redirected to the list of périodes and "PériodaPériode modif" does not exist in any page
+    Then User is redirected to the list of périodes and "periode nb2periode nb6" does not exist in any page
 
    # Cancel deleting a Periode
   Scenario: Cancel deleting a periode

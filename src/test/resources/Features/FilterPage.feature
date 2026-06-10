@@ -1,3 +1,4 @@
+@filter
 Feature: Filter periode
 
   Background:
@@ -11,3 +12,11 @@ Feature: Filter periode
     And The filter form appears with title "Periode"
     Then User fills the start date field with the required date "10/02/2026"
     Then All the periodes with start date greater than or equal to "10/02/2026" are displayed
+    
+   # 🔍 Filter by end date
+   Scenario: Find a periode by using End date filter
+    When User clicks on "Afficher Filtres" button
+    And The filter form appears with title "Periode"
+    Then User fills the end date field with the required date "10/05/2026"
+    Then All the periodes with end date less than or equal to "10/05/2026" are displayed
+    

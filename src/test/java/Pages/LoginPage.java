@@ -60,6 +60,55 @@ public class LoginPage {
 	}
 	
 	public void selectRole(String roleName) throws Exception {
+	    WebDriverWait wait = new WebDriverWait(Config.driver, Duration.ofSeconds(20));
+
+	    try {
+	        System.out.println("Looking for role: " + roleName);
+
+	        // Wait for role popup to appear by waiting for at least one role element
+	        wait.until(ExpectedConditions.presenceOfElementLocated(
+	            By.xpath("/html/body/div[2]/div[3]/div/div/div/div[2]/div/div/div/div/div/div/div[3]/div/h6")
+	        ));
+
+	        // Re-fetch fresh elements — loginRole from @FindBy is stale
+	        List<WebElement> freshRoles = Config.driver.findElements(
+	            By.xpath("/html/body/div[2]/div[3]/div/div/div/div[2]/div/div/div/div/div/div/div[3]/div/h6")
+	        );
+
+	        System.out.println("Total roles found: " + freshRoles.size());
+
+	        boolean roleFound = false;
+	        for (WebElement role : freshRoles) {
+	            String roleText = role.getText().trim();
+	            System.out.println("Available role: '" + roleText + "'");
+
+	            if (roleText.equalsIgnoreCase(roleName.trim())) {
+	                System.out.println("✔ Role found: " + roleName);
+	                wait.until(ExpectedConditions.elementToBeClickable(role));
+	                role.click();
+	                System.out.println("✔ Clicked role: " + roleName);
+	                roleFound = true;
+	                break;
+	            }
+	        }
+
+	        if (!roleFound) {
+	            System.out.println("✗ Role NOT found: " + roleName);
+	            System.out.println("Available roles: " + freshRoles.stream()
+	                .map(r -> r.getText().trim())
+	                .toList());
+	        }
+
+	        Thread.sleep(3000);
+	        System.out.println("Current URL after role selection: " + Config.driver.getCurrentUrl());
+
+	    } catch (Exception e) {
+	        System.out.println("✗ Error selecting role: " + e.getMessage());
+	        throw e;
+	    }
+	}
+	
+	public void selectRoles(String roleName) throws Exception {
 		WebDriverWait wait = new WebDriverWait(Config.driver, Duration.ofSeconds(20));
 		
 		try {
