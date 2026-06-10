@@ -20,7 +20,7 @@ Scenario Outline: Add a Periode with invalid data
 
  Scenario Outline: Add a Periode with empty fields
     When User clicks save without filling the form
-    Then Error messages are displayed under empty fields with data "test7", "01/09/2024"
+    Then Error messages are displayed under empty fields with data "test22", "01/09/2024"
 
   
   # Duplicate name

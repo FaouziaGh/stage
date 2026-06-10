@@ -20,22 +20,73 @@ public class Config {
         driver.manage().window().maximize();
     }
 
+    // public static void maximazwindow() {
+    //     ChromeOptions options = new ChromeOptions();
+    //     if (System.getProperty("jenkins") != null
+    //             || System.getenv("JENKINS_HOME") != null) {
+    //         options.addArguments("--headless");
+    //         options.addArguments("--no-sandbox");
+    //         options.addArguments("--disable-dev-shm-usage");
+    //         options.addArguments("--window-size=1920,1080");
+    //         options.addArguments("--disable-gpu");
+    //         System.out.println("Running in headless mode (Jenkins)");
+    //     } else {
+    //         options.addArguments("--start-maximized");
+    //         System.out.println("Running in normal mode (local)");
+    //     }
+    //     driver = new ChromeDriver(options);
+    // }
+
+//    public static void maximazwindow() {
+//     ChromeOptions options = new ChromeOptions();
+
+//     if (System.getProperty("jenkins") != null
+//             || System.getenv("JENKINS_HOME") != null
+//             || System.getenv("CI") != null) {
+
+//         options.addArguments("--headless=new"); // IMPORTANT (modern headless)
+//         options.addArguments("--no-sandbox");
+//         options.addArguments("--disable-dev-shm-usage");
+//         options.addArguments("--window-size=1920,1080");
+//         options.addArguments("--disable-gpu");
+//         options.addArguments("--remote-allow-origins=*");
+
+//         System.out.println("Running in headless mode (CI/Jenkins)");
+//     } else {
+//         options.addArguments("--start-maximized");
+//         System.out.println("Running in normal mode (local)");
+//     }
+
+//     driver = new ChromeDriver(options);
+// }
+
+//     public static void maximazwindow() {
+//     ChromeOptions options = new ChromeOptions();
+//     options.addArguments("--headless=new");
+//     options.addArguments("--no-sandbox");
+//     options.addArguments("--disable-dev-shm-usage");
+//     options.addArguments("--disable-gpu");
+//     options.addArguments("--window-size=1920,1080");
+//     options.addArguments("--remote-allow-origins=*");
+//     options.addArguments("--disable-extensions");
+//     options.addArguments("--disable-software-rasterizer");  // ← key fix
+//     options.addArguments("--disable-background-networking");
+
+//     driver = new ChromeDriver(options);  // always headless in CI
+// }
     public static void maximazwindow() {
-        ChromeOptions options = new ChromeOptions();
-        if (System.getProperty("jenkins") != null
-                || System.getenv("JENKINS_HOME") != null) {
-            options.addArguments("--headless");
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--window-size=1920,1080");
-            options.addArguments("--disable-gpu");
-            System.out.println("Running in headless mode (Jenkins)");
-        } else {
-            options.addArguments("--start-maximized");
-            System.out.println("Running in normal mode (local)");
-        }
-        driver = new ChromeDriver(options);
-    }
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--headless=new");
+    options.addArguments("--no-sandbox");
+    options.addArguments("--disable-dev-shm-usage");
+    options.addArguments("--disable-gpu");
+    options.addArguments("--window-size=1920,1080");
+    options.addArguments("--remote-allow-origins=*");
+    options.addArguments("--disable-extensions");
+    options.addArguments("--disable-software-rasterizer");
+
+    driver = new ChromeDriver(options);  // ← driver created HERE with all flags
+}
 
     public static void attent(int s) {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(s));

@@ -1,5 +1,5 @@
 Feature: Erudaxis Login Page
-
+@login
 Scenario Outline: Login with valid credentials
 
 Given admin is on login page

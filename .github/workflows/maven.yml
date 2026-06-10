@@ -1,0 +1,165 @@
+name: Stage
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  ALLURE_VERSION: "2.34.1"
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ========================
+      # Checkout
+      # ========================
+      - name: Checkout Project
+        uses: actions/checkout@v4
+
+      # ========================
+      # Java
+      # ========================
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      # ========================
+      # IMPORTANT: Linux dependencies (FIXES Chrome crash)
+      # ========================
+      - name: Install Chrome dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            fonts-liberation \
+            libnss3 \
+            libxss1 \
+            libasound2t64 \
+            libatk-bridge2.0-0 \
+            libgtk-3-0 \
+            libgbm1 \
+            xdg-utils \
+            wget
+
+      # ========================
+      # Install Chrome
+      # ========================
+      # - name: Install Google Chrome
+      #   uses: browser-actions/setup-chrome@v1
+
+      # - name: Verify Chrome Installation
+      #   run: google-chrome --version
+
+      # ========================
+      # Run Tests
+      # ========================
+      - name: Run Selenium + Cucumber Tests
+        run: mvn clean test -e
+        continue-on-error: true
+
+      # ========================
+      # DEBUG OUTPUTS
+      # ========================
+      - name: Debug Test Output
+        if: always()
+        run: |
+          echo "======= allure-results ======="
+          ls -la target/allure-results/ 2>/dev/null || echo "MISSING"
+
+          echo "======= cucumber-reports ======="
+          ls -la target/cucumber-reports/ 2>/dev/null || echo "MISSING"
+
+          echo "======= surefire-reports ======="
+          ls -la target/surefire-reports/ 2>/dev/null || echo "MISSING"
+
+      # ========================
+      # Allure CLI
+      # ========================
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          curl -o allure.tgz -Ls \
+            https://github.com/allure-framework/allure2/releases/download/${{ env.ALLURE_VERSION }}/allure-${{ env.ALLURE_VERSION }}.tgz
+          sudo tar -zxvf allure.tgz -C /opt/
+          sudo ln -s /opt/allure-${{ env.ALLURE_VERSION }}/bin/allure /usr/bin/allure
+
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          allure generate target/allure-results \
+            --clean \
+            -o target/allure-report
+
+      # ========================
+      # Debug report
+      # ========================
+      - name: Debug Allure Report
+        if: always()
+        run: |
+          ls -la target/allure-report/ 2>/dev/null || echo "NO REPORT"
+          test -f target/allure-report/index.html && echo "OK" || echo "MISSING"
+
+      # ========================
+      # Deploy GitHub Pages
+      # ========================
+      - name: Deploy Allure Report to GitHub Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: target/allure-report
+          publish_branch: gh-pages
+          destination_dir: allure-report
+          force_orphan: true
+
+      # ========================
+      # Upload artifacts
+      # ========================
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/allure-report
+
+      - name: Upload Cucumber Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cucumber-report
+          path: target/cucumber-reports/
+
+      - name: Upload Surefire Reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
+
+      - name: Upload Screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: screenshots/
+
+      # ========================
+      # Report URL
+      # ========================
+      - name: Print Allure Report URL
+        if: always()
+        run: |
+          REPO=$(echo '${{ github.repository }}' | cut -d'/' -f2)
+          OWNER=${{ github.repository_owner }}
+          echo "✓ Allure Report: https://${OWNER}.github.io/${REPO}/allure-report/index.html"
