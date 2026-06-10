@@ -1,0 +1,5 @@
+target/
+allure-results/
+*.class
+*.log
+cucumber-reports/
