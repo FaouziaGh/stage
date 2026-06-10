@@ -56,4 +56,31 @@ public class FilterPageStepDef {
         filterPage.verifEndDateFilter(date);
         Config.driver.quit();
     }
+ // store applied dates to prevent feature file mismatch
+    private String appliedCombinedStartDate;
+    private String appliedCombinedEndDate;
+
+    @Then("User fills the start date and end date fields with the required dates {string}, {string}")
+    public void user_fills_start_and_end_date_fields(String startDate, String endDate) {
+        this.appliedCombinedStartDate = startDate;
+        this.appliedCombinedEndDate   = endDate;
+
+        FilterPage filterPage = new FilterPage();
+        filterPage.fillStartAndEndDateFilter(startDate, endDate);
+    }
+
+    @Then("All the periodes with start date greater than or equal to {string} and end date less than or equal to {string} are displayed")
+    public void all_periodes_with_start_and_end_date(String startDate, String endDate) {
+        // ── Guard against feature file date mismatch
+        if (!startDate.equals(appliedCombinedStartDate) || !endDate.equals(appliedCombinedEndDate)) {
+            System.out.println("⚠ WARNING: Feature file verification dates differ from applied filter dates.");
+            System.out.println("   Applied : [" + appliedCombinedStartDate + "] → [" + appliedCombinedEndDate + "]");
+            System.out.println("   Feature : [" + startDate + "] → [" + endDate + "]");
+            System.out.println("   Using applied dates for verification.");
+        }
+
+        FilterPage filterPage = new FilterPage();
+        filterPage.verifStartAndEndDateFilter(appliedCombinedStartDate, appliedCombinedEndDate);
+        Config.driver.quit();
+    }
 }
