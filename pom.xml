@@ -62,11 +62,6 @@
       <version>${aspectj.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-    	<groupId>erudaxisTest</groupId>
-    	<artifactId>erudaxisTest</artifactId>
-    	<version>0.0.1-SNAPSHOT</version>
-    </dependency>
   </dependencies>
 
   <build>
