@@ -83,4 +83,17 @@ public class FilterPageStepDef {
         filterPage.verifStartAndEndDateFilter(appliedCombinedStartDate, appliedCombinedEndDate);
         Config.driver.quit();
     }
+    
+    @When("User clicks on \"Tout réinitialiser\" button")
+    public void user_clicks_on_tout_reinitialiser_button() {
+        FilterPage filterPage = new FilterPage();
+        filterPage.clickReinitialiserButton();
+    }
+
+    @Then("All the periodes are displayed without any filters applied")
+    public void all_periodes_displayed_without_filters() {
+        FilterPage filterPage = new FilterPage();
+        filterPage.verifFiltersCleared();
+        Config.driver.quit();
+    }
 }

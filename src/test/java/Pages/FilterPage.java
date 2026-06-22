@@ -34,6 +34,9 @@ public class FilterPage {
 
     @FindBy(xpath = "/html/body/div/div[2]/div/div/div/div/div[2]/div/div[2]/div/div[2]/button")
     WebElement reinitialisationBtn;
+    
+    @FindBy(xpath = "/html/body/div/div[2]/div/div/div/div/div[2]/div/div[2]/div/div[2]/button")
+    WebElement reinitialiserBtn;
 
     public FilterPage() {
         PageFactory.initElements(Config.driver, this);
@@ -538,6 +541,122 @@ public void verifStartAndEndDateFilter(String enteredStartDate, String enteredEn
     int pageNumber   = 1;
     int totalChecked = 0;
     int totalSkipped = 0;
+    int totalDataWarnings = 0;
+    List<String> failures = new ArrayList<>(); // collect all failures
+    ListePage listePage = new ListePage();
+
+    while (true) {
+        System.out.println("── Checking page: " + pageNumber);
+
+        List<WebElement> freshStartDates = new FilterPage().startDateOnList;
+        List<WebElement> freshEndDates   = new FilterPage().endDateOnList;
+        int rowCount = freshStartDates.size();
+        System.out.println("Rows found: " + rowCount);
+
+        Assert.assertFalse("❌ No rows found on page " + pageNumber, freshStartDates.isEmpty());
+        Assert.assertEquals(
+            "❌ Column count mismatch on page " + pageNumber,
+            freshStartDates.size(), freshEndDates.size()
+        );
+
+        for (int i = 0; i < rowCount; i++) {
+            String startText = freshStartDates.get(i).getAttribute("textContent").trim();
+            String endText   = freshEndDates.get(i).getAttribute("textContent").trim();
+
+            if (startText.isEmpty() && endText.isEmpty()) continue;
+
+            // ── Parse start date
+            LocalDate rowStartDate;
+            try {
+                rowStartDate = LocalDate.parse(startText, APP_FORMAT);
+            } catch (Exception e) {
+                System.out.println("⚠ SKIPPED corrupt start date: '" + startText + "'");
+                totalSkipped++;
+                continue;
+            }
+
+            // ── Parse end date
+            LocalDate rowEndDate;
+            try {
+                rowEndDate = LocalDate.parse(endText, APP_FORMAT);
+            } catch (Exception e) {
+                System.out.println("⚠ SKIPPED corrupt end date: '" + endText + "'");
+                totalSkipped++;
+                continue;
+            }
+
+            boolean startOk = !rowStartDate.isBefore(filterStartDate);
+            boolean endOk   = !rowEndDate.isAfter(filterEndDate);
+            String  status  = (startOk && endOk) ? "✔" : "❌";
+
+            System.out.println(status +
+                " Start: " + startText + " [" + (startOk ? "PASS" : "FAIL") + "]" +
+                " | End: "  + endText   + " [" + (endOk   ? "PASS" : "FAIL") + "]" +
+                " | Page: " + pageNumber
+            );
+
+            // ── Collect failures instead of failing immediately
+            if (!startOk) {
+                failures.add("Page " + pageNumber + " | Start date '" + startText +
+                    "' is BEFORE filter start '" + enteredStartDate + "'");
+            }
+            if (!endOk) {
+                failures.add("Page " + pageNumber + " | End date '" + endText +
+                    "' is AFTER filter end '" + enteredEndDate + "'");
+            }
+
+            // ── Flag incoherent data as a WARNING only — does not fail the test
+            if (rowEndDate.isBefore(rowStartDate)) {
+                System.out.println("⚠ DATA WARNING (not a filter bug) — Page " + pageNumber +
+                    " | start '" + startText + "' is after end '" + endText + "' — bad data in DB, not added to failures");
+                totalDataWarnings++;
+            }
+
+            totalChecked++;
+        }
+
+        System.out.println("✔ Page " + pageNumber + ": scan complete.");
+
+        boolean hasNextPage = listePage.goToNextPage();
+        if (!hasNextPage) {
+            // ── Print full summary
+            System.out.println("══════════════════════════════════════════════");
+            System.out.println("✔ Scan complete on all " + pageNumber + " page(s).");
+            System.out.println("✔ Total rows checked     : " + totalChecked);
+            System.out.println("⚠ Total rows skipped     : " + totalSkipped);
+            System.out.println("⚠ Total data warnings    : " + totalDataWarnings + " (incoherent rows — not failing the test)");
+            System.out.println("❌ Total failures found   : " + failures.size());
+            if (!failures.isEmpty()) {
+                System.out.println("── Failure details:");
+                for (String f : failures) {
+                    System.out.println("   → " + f);
+                }
+            }
+            System.out.println("══════════════════════════════════════════════");
+            break;
+        }
+        pageNumber++;
+    }
+
+    // ── Fail the test ONCE at the end with full report (data warnings excluded)
+    Assert.assertTrue(
+        "❌ Filter verification failed with " + failures.size() + " issue(s):\n" +
+        String.join("\n", failures),
+        failures.isEmpty()
+    );
+}
+
+public void verifStartAndEndDateFilters(String enteredStartDate, String enteredEndDate) {
+    Config.attent(3);
+
+    LocalDate filterStartDate = LocalDate.parse(enteredStartDate, APP_FORMAT);
+    LocalDate filterEndDate   = LocalDate.parse(enteredEndDate,   APP_FORMAT);
+
+    System.out.println("Verifying: start >= " + enteredStartDate + " AND end <= " + enteredEndDate);
+
+    int pageNumber   = 1;
+    int totalChecked = 0;
+    int totalSkipped = 0;
     List<String> failures = new ArrayList<>(); // collect all failures
     ListePage listePage = new ListePage();
 
@@ -639,7 +758,7 @@ public void verifStartAndEndDateFilter(String enteredStartDate, String enteredEn
         failures.isEmpty()
     );
 }
-public void verifStartAndEndDateFilters(String enteredStartDate, String enteredEndDate) {
+public void verifStartAndEndDateFilterss(String enteredStartDate, String enteredEndDate) {
   Config.attent(3);
 
   LocalDate filterStartDate = LocalDate.parse(enteredStartDate, APP_FORMAT);
@@ -731,6 +850,48 @@ public void verifStartAndEndDateFilters(String enteredStartDate, String enteredE
       }
       pageNumber++;
   }
+}
+//────────────────────────────────────────────
+//── Click "Tout réinitialiser" button
+//────────────────────────────────────────────
+public void clickReinitialiserButton() {
+ Config.clickElement(reinitialiserBtn, 10);
+ Config.attent(2);
+ System.out.println("✔ Clicked: Tout réinitialiser");
+}
+
+//────────────────────────────────────────────
+//── Verify filters are cleared and all periods are shown
+//────────────────────────────────────────────
+public void verifFiltersCleared() {
+ Config.attent(2);
+
+ // ── Both date fields should be empty after reset
+ String startValue = startDateField.getAttribute("value");
+ String endValue   = endDateField.getAttribute("value");
+
+ System.out.println("✔ Start date field after reset: '" + startValue + "'");
+ System.out.println("✔ End date field after reset: '" + endValue + "'");
+
+ Assert.assertTrue(
+     "❌ Start date field should be empty after reset, but was: '" + startValue + "'",
+     startValue == null || startValue.isEmpty()
+ );
+ Assert.assertTrue(
+     "❌ End date field should be empty after reset, but was: '" + endValue + "'",
+     endValue == null || endValue.isEmpty()
+ );
+
+ // ── Confirm rows reappear (table is not empty)
+ List<WebElement> rows = new FilterPage().startDateOnList;
+ System.out.println("✔ Rows visible after reset: " + rows.size());
+
+ Assert.assertFalse(
+     "❌ No rows displayed after clearing filters — table appears empty",
+     rows.isEmpty()
+ );
+
+ System.out.println("✔ Filters successfully cleared — all periods displayed.");
 }
 
 }

@@ -26,3 +26,13 @@ Feature: Filter periode
     And The filter form appears with title "Periode"
     Then User fills the start date and end date fields with the required dates "10/02/2026", "10/05/2026"
     Then All the periodes with start date greater than or equal to "10/02/2026" and end date less than or equal to "10/05/2026" are displayed
+    
+   # 🔍 Filter by start date and end date then clear the filters
+   Scenario: Find a periode by using start date and end date then clear the filters
+    When User clicks on "Afficher Filtres" button
+    And The filter form appears with title "Periode"
+    Then User fills the start date and end date fields with the required dates "10/02/2026", "10/05/2026"
+    When User clicks on "Tout réinitialiser" button
+    Then All the periodes are displayed without any filters applied
+    
+    
