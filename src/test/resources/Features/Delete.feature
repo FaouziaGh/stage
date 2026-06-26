@@ -1,6 +1,5 @@
-@delete
 Feature: Delete Periode 
-
+@delete
 
   Background:
     Given User is logged in on the home page with the correct correct username "faouzia.gharbi111@gmail.com" and correct password "Faouzia@2026!" and role "college"
